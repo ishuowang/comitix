@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "id": "music-loop-v1-cassette",
+  "title": "53-week music loop",
+  "anchor_date": "2026-08-02",
+  "timezone": "Asia/Shanghai",
+  "cycle_weeks": 53,
+  "author": {
+    "name": "ishuowang",
+    "email": "38482259+ishuowang@users.noreply.github.com"
+  },
+  "committer": {
+    "name": "github-actions[bot]",
+    "email": "41898282+github-actions[bot]@users.noreply.github.com"
+  },
+  "levels_to_commits": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 4,
+    "4": 7
+  },
+  "segments": [
+    {
+      "name": "vinyl",
+      "label": "唱片",
+      "kind": "motif",
+      "start_week": 0,
+      "width": 7
+    },
+    {
+      "name": "spark",
+      "label": "星点",
+      "kind": "decoration",
+      "start_week": 7,
+      "width": 2
+    },
+    {
+      "name": "note",
+      "label": "音符",
+      "kind": "motif",
+      "start_week": 9,
+      "width": 6
+    },
+    {
+      "name": "beat",
+      "label": "节拍点",
+      "kind": "decoration",
+      "start_week": 15,
+      "width": 2
+    },
+    {
+      "name": "cassette",
+      "label": "磁带",
+      "kind": "motif",
+      "start_week": 17,
+      "width": 8
+    },
+    {
+      "name": "wave",
+      "label": "波形",
+      "kind": "motif",
+      "start_week": 25,
+      "width": 7
+    },
+    {
+      "name": "glint",
+      "label": "闪点",
+      "kind": "decoration",
+      "start_week": 32,
+      "width": 2
+    },
+    {
+      "name": "headphones",
+      "label": "耳机",
+      "kind": "motif",
+      "start_week": 34,
+      "width": 8
+    },
+    {
+      "name": "echo",
+      "label": "回声点",
+      "kind": "decoration",
+      "start_week": 42,
+      "width": 2
+    },
+    {
+      "name": "play",
+      "label": "播放",
+      "kind": "motif",
+      "start_week": 44,
+      "width": 7
+    },
+    {
+      "name": "loop",
+      "label": "循环点",
+      "kind": "decoration",
+      "start_week": 51,
+      "width": 2
+    }
+  ],
+  "rows": [
+    "00444000000444001044444000000001010022220020400000010",
+    "04404402000404000400000400000144000220022000440000000",
+    "44000440000404000404040401000410002200002200444000000",
+    "44040440000404000402220404000000002000000200444400000",
+    "44000440044404000400000400014000004000000400444000000",
+    "04404400044000020404440400441000204400004400440000000",
+    "00444000104000000044044000100000000400004010400000002"
+  ]
+}

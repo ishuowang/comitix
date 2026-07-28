@@ -1,0 +1,38 @@
+name: Paint music loop
+
+on:
+  schedule:
+    - cron: "17 20 * * *"
+      timezone: "Asia/Shanghai"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: comitix-painter-main
+  cancel-in-progress: false
+
+jobs:
+  paint:
+    name: Paint missing pixels
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Validate pattern
+        run: python3 scripts/comitix.py validate
+
+      - name: Catch up and push
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          git pull --rebase origin main
+          target_date="$(python3 scripts/comitix.py today)"
+          python3 scripts/comitix.py paint --through "${target_date}"
+          git push origin HEAD:main
