@@ -62,6 +62,74 @@ class PatternTests(unittest.TestCase):
         self.assertEqual((0, 0, 1), (repeated.column, repeated.row, repeated.cycle))
         self.assertEqual(anchor_pixel.level, repeated.level)
 
+    def test_complete_pattern_repeats_across_many_cycles(self) -> None:
+        cycle_days = self.pattern["cycle_weeks"] * 7
+        first_cycle = [
+            pixel_for(self.pattern, self.anchor + timedelta(days=offset))
+            for offset in range(cycle_days)
+        ]
+
+        for cycle in (1, 2, 17, 100, 1000):
+            for offset, expected in enumerate(first_cycle):
+                with self.subTest(cycle=cycle, offset=offset):
+                    repeated = pixel_for(
+                        self.pattern,
+                        self.anchor + timedelta(days=(cycle * cycle_days) + offset),
+                    )
+                    self.assertIsNotNone(expected)
+                    self.assertIsNotNone(repeated)
+                    self.assertEqual(cycle, repeated.cycle)
+                    self.assertEqual(
+                        (
+                            expected.column,
+                            expected.row,
+                            expected.level,
+                            expected.target_commits,
+                        ),
+                        (
+                            repeated.column,
+                            repeated.row,
+                            repeated.level,
+                            repeated.target_commits,
+                        ),
+                    )
+
+    def test_last_complete_cycle_before_date_max_still_repeats(self) -> None:
+        cycle_days = self.pattern["cycle_weeks"] * 7
+        available_days = (date.max - self.anchor).days
+        last_complete_cycle = (available_days - (cycle_days - 1)) // cycle_days
+        self.assertGreater(last_complete_cycle, 1000)
+
+        last_cycle_start = self.anchor + timedelta(days=last_complete_cycle * cycle_days)
+        self.assertLessEqual(
+            last_cycle_start + timedelta(days=cycle_days - 1),
+            date.max,
+        )
+        for offset in range(cycle_days):
+            with self.subTest(offset=offset):
+                expected = pixel_for(self.pattern, self.anchor + timedelta(days=offset))
+                repeated = pixel_for(
+                    self.pattern,
+                    last_cycle_start + timedelta(days=offset),
+                )
+                self.assertIsNotNone(expected)
+                self.assertIsNotNone(repeated)
+                self.assertEqual(last_complete_cycle, repeated.cycle)
+                self.assertEqual(
+                    (
+                        expected.column,
+                        expected.row,
+                        expected.level,
+                        expected.target_commits,
+                    ),
+                    (
+                        repeated.column,
+                        repeated.row,
+                        repeated.level,
+                        repeated.target_commits,
+                    ),
+                )
+
     def test_before_anchor_has_no_pixel_or_plan(self) -> None:
         before = self.anchor - timedelta(days=1)
         self.assertIsNone(pixel_for(self.pattern, before))
